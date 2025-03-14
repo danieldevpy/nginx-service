@@ -1,5 +1,5 @@
 import os
-import docker
+import docker, time
 
 def create_nginx_config(server_name, proxy_pass):
     """
@@ -66,3 +66,5 @@ def restart_nginx_container(container_name):
     except Exception as e:
         print(f"Falha ao reiniciar o container: {e}")
 
+while True:
+    time.sleep(1)
