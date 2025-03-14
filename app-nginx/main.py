@@ -33,19 +33,39 @@ def restart_nginx_container(container_name):
         print(f"Failed to restart container: {e}")
 
 
-def install_ssl_certificate(domain_name, certbot_container="certbot"):
-    """Executa o Certbot para obter um certificado SSL."""
+def install_ssl_certificate(domain_name, email):
+    """Executa o Certbot dentro do container via Python para obter um certificado SSL"""
     client = docker.from_env()
+    
+    certbot_cmd = [
+        "certbot", "certonly", "--webroot",
+        "-w", "/var/www/certbot",
+        "-d", domain_name,
+        "--non-interactive",
+        "--agree-tos",
+        "--email", email,
+        "--rsa-key-size", "4096",
+        "--force-renewal"
+    ]
+    
     try:
-        certbot_cmd = f"certbot certonly --webroot -w /var/www/certbot -d {domain_name} --non-interactive --agree-tos --email seu-email@dominio.com --rsa-key-size 4096 --force-renewal"
-        container = client.containers.run("certbot/certbot", certbot_cmd, remove=True, volumes={
-            "./nginx-content/certbot-etc": {"bind": "/etc/letsencrypt", "mode": "rw"},
-            "./nginx-content/certbot-var": {"bind": "/var/lib/letsencrypt", "mode": "rw"},
-            "./nginx-content/sites-enabled": {"bind": "/var/www/certbot", "mode": "rw"},
-        }, detach=True)
-        print(f"Certbot is running for {domain_name}")
-        container.wait()
+        print(f"Iniciando Certbot para {domain_name}...")
+        
+        container = client.containers.run(
+            "certbot/certbot",  # Imagem oficial do Certbot
+            command=certbot_cmd,  # Comando necessário
+            remove=True,  # Remove o container após execução
+            volumes={
+                "./nginx-content/certbot-etc": {"bind": "/etc/letsencrypt", "mode": "rw"},
+                "./nginx-content/certbot-var": {"bind": "/var/lib/letsencrypt", "mode": "rw"},
+                "./nginx-content/sites-enabled": {"bind": "/var/www/certbot", "mode": "rw"},
+            },
+            detach=True  # Roda em segundo plano
+        )
+        
+        print(f"Certbot rodando para {domain_name}, aguardando finalização...")
+        container.wait()  # Espera Certbot terminar
+        print(f"Certificado SSL instalado para {domain_name} com sucesso!")
+
     except Exception as e:
-        print(f"Failed to obtain SSL certificate: {e}")
-
-
+        print(f"Erro ao instalar certificado SSL: {e}")
