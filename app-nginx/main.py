@@ -32,6 +32,20 @@ def restart_nginx_container(container_name):
     except Exception as e:
         print(f"Failed to restart container: {e}")
 
-if __name__ == "__main__":
-    create_nginx_config('localhost', 'http://google.com')
-    restart_nginx_container('nginxservice-nginx-container-1')  # Substitua 'nginx' pelo nome do seu container
+
+def install_ssl_certificate(domain_name, certbot_container="certbot"):
+    """Executa o Certbot para obter um certificado SSL."""
+    client = docker.from_env()
+    try:
+        certbot_cmd = f"certbot certonly --webroot -w /var/www/certbot -d {domain_name} --non-interactive --agree-tos --email seu-email@dominio.com --rsa-key-size 4096 --force-renewal"
+        container = client.containers.run("certbot/certbot", certbot_cmd, remove=True, volumes={
+            "./nginx-content/certbot-etc": {"bind": "/etc/letsencrypt", "mode": "rw"},
+            "./nginx-content/certbot-var": {"bind": "/var/lib/letsencrypt", "mode": "rw"},
+            "./nginx-content/sites-enabled": {"bind": "/var/www/certbot", "mode": "rw"},
+        }, detach=True)
+        print(f"Certbot is running for {domain_name}")
+        container.wait()
+    except Exception as e:
+        print(f"Failed to obtain SSL certificate: {e}")
+
+

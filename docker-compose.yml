@@ -19,6 +19,14 @@ services:
     networks:
       - nginx-network
 
+  certbot:
+    image: certbot/certbot
+    volumes:
+      - ./nginx-content/certbot-etc:/etc/letsencrypt
+      - ./nginx-content/certbot-var:/var/lib/letsencrypt
+      - ./nginx-content/sites-enabled:/var/www/certbot
+    entrypoint: ""
+
 networks:
   nginx-network:
     driver: bridge
