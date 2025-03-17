@@ -71,3 +71,16 @@
 2025/03/17 02:11:31 [emerg] 1#1: open() "/etc/nginx/sites-enabled/localhost.conf" failed (2: No such file or directory) in /etc/nginx/nginx.conf:31
 2025/03/17 02:15:29 [error] 22#22: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.18.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "localhost"
 2025/03/17 02:15:29 [error] 22#22: *1 connect() failed (111: Connection refused) while connecting to upstream, client: 172.18.0.1, server: localhost, request: "GET / HTTP/1.1", upstream: "http://127.0.0.1:8000/", host: "localhost"
+2025/03/17 02:21:43 [emerg] 1#1: invalid port in upstream "http://45.231.133.116:8000/" in /etc/nginx/sites-enabled/certificado.magmacursosltda.com.br.conf:7
+2025/03/17 02:21:44 [emerg] 1#1: invalid port in upstream "http://45.231.133.116:8000/" in /etc/nginx/sites-enabled/certificado.magmacursosltda.com.br.conf:7
+2025/03/17 02:21:46 [emerg] 1#1: invalid port in upstream "http://45.231.133.116:8000/" in /etc/nginx/sites-enabled/certificado.magmacursosltda.com.br.conf:7
+2025/03/17 02:21:47 [emerg] 1#1: invalid port in upstream "http://45.231.133.116:8000/" in /etc/nginx/sites-enabled/certificado.magmacursosltda.com.br.conf:7
+2025/03/17 02:21:48 [emerg] 1#1: invalid port in upstream "http://45.231.133.116:8000/" in /etc/nginx/sites-enabled/certificado.magmacursosltda.com.br.conf:7
+2025/03/17 02:21:50 [emerg] 1#1: invalid port in upstream "http://45.231.133.116:8000/" in /etc/nginx/sites-enabled/certificado.magmacursosltda.com.br.conf:7
+2025/03/17 02:21:54 [emerg] 1#1: invalid port in upstream "http://45.231.133.116:8000/" in /etc/nginx/sites-enabled/certificado.magmacursosltda.com.br.conf:7
+2025/03/17 02:22:01 [emerg] 1#1: invalid port in upstream "http://45.231.133.116:8000/" in /etc/nginx/sites-enabled/certificado.magmacursosltda.com.br.conf:7
+2025/03/17 02:22:15 [emerg] 1#1: invalid port in upstream "http://45.231.133.116:8000/" in /etc/nginx/sites-enabled/certificado.magmacursosltda.com.br.conf:7
+2025/03/17 02:23:31 [notice] 34#34: signal process started
+2025/03/17 02:23:36 [notice] 37#37: signal process started
+2025/03/17 02:23:40 [notice] 40#40: signal process started
+2025/03/17 02:23:41 [notice] 43#43: signal process started
