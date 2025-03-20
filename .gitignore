@@ -1,11 +1,20 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,vs
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,vs
 
+
+
+
+# nginx repositorio git
+logs/
+logs/*
+nginx-content/sites-available/
+nginx-content/sites-enabled/
 nginx-content/sites-available/*
 nginx-content/sites-enabled/*
+nginx-content/certbot/
+nginx-content/logs/
 nginx-content/certbot/*
 nginx-content/logs/*
-
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
