@@ -1,20 +1,14 @@
 # Created by https://www.toptal.com/developers/gitignore/api/python,vs
 # Edit at https://www.toptal.com/developers/gitignore?templates=python,vs
 
+# Ignorar tudo dentro de files-nginx
+files-nginx/certbot/**
+files-nginx/sites-available/**
+files-nginx/sites-enabled/**
+files-nginx/logs/**
 
-
-
-# nginx repositorio git
-logs/
-logs/*
-nginx-content/sites-available/
-nginx-content/sites-enabled/
-nginx-content/sites-available/*
-nginx-content/sites-enabled/*
-nginx-content/certbot/
-nginx-content/logs/
-nginx-content/certbot/*
-nginx-content/logs/*
+# Exceto o arquivo nginx.conf
+!files-nginx/nginx.conf
 ### Python ###
 # Byte-compiled / optimized / DLL files
 __pycache__/
