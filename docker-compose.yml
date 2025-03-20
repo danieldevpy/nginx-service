@@ -1,16 +1,17 @@
 version: '3.8'
 
 services:
-  nginx-container:
+  nginx-service-container:
     build: .
-    container_name: nginx-container
+    container_name: nginx-service-container
     volumes:
-      - ./nginx-content/nginx.conf:/etc/nginx/nginx.conf
-      - ./nginx-content/sites-available:/etc/nginx/sites-available
-      - ./nginx-content/sites-enabled:/etc/nginx/sites-enabled
-      - ./nginx-content/logs:/var/log/nginx
-      - ./nginx-content/certbot/conf:/etc/letsencrypt  # Volume para certificados SSL
-      - ./nginx-content/certbot/www:/var/www/certbot  # Volume para desafios do Certbot
+      - ./files-nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./files-nginx/sites-available:/etc/nginx/sites-available
+      - ./files-nginx/sites-enabled:/etc/nginx/sites-enabled
+      - ./files-nginx/logs:/var/log/nginx
+      - ./files-nginx/certbot/conf:/etc/letsencrypt  # Volume para certificados SSL
+      - ./files-nginx/certbot/www:/var/www/certbot  # Volume para desafios do Certbot
+      - /tmp:/tmp
     ports:
       - "80:80"
       - "443:443"  # Expor a porta HTTPS
@@ -18,14 +19,17 @@ services:
       - nginx-network
     restart: unless-stopped
 
-  app-nginx:
-    build: ./python-service
-    container_name: app-python-nginx
+  backend-fastapi:
+    build: ./backend-fastapi
+    container_name: backend-fastapi
     volumes:
-      - ./nginx-content:/etc/nginx
+      - ./files-nginx:/etc/nginx
       - /var/run/docker.sock:/var/run/docker.sock  # Montando o socket do Docker
+      - /tmp:/tmp
     networks:
       - nginx-network
+    depends_on:
+      - nginx-service-container
     ports:
       - "8010:8010"
     restart: unless-stopped
