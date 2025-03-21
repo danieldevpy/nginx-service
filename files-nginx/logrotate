@@ -1,0 +1,13 @@
+/var/log/nginx/*.log {
+    daily
+    rotate 7
+    missingok
+    notifempty
+    dateext
+    dateformat -%Y-%m-%d
+    # delaycompress
+    # compress  <-- Remova ou comente essa linha para evitar compactação
+    postrotate
+        systemctl reload nginx > /dev/null 2>&1
+    endscript
+}
