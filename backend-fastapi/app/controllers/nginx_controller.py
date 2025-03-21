@@ -9,7 +9,7 @@ from services.nginx_service import NginxService
 
 router = APIRouter()
 
-@router.get("/api/rules")
+@router.get("/api/rules", tags=["Rules"])
 async def get_rules():
     """
     Retorna todas as regras de configuração do Nginx.
@@ -23,7 +23,7 @@ async def get_rules():
     """
     return NginxService.get_rules()
 
-@router.get("/api/rules/{server_name}")
+@router.get("/api/rules/{server_name}", tags=["Rules"])
 async def get_rule(server_name: str):
     """
     Retorna uma regra de configuração do Nginx para um servidor específico.
@@ -39,7 +39,7 @@ async def get_rule(server_name: str):
     """
     return NginxService.get_rule(server_name)
 
-@router.post("/api/rules", status_code=201)
+@router.post("/api/rules", status_code=201, tags=["Rules"])
 async def create_rule(request: CreateRuleRequest):
     """
     Cria uma nova regra de configuração no Nginx.
@@ -56,7 +56,7 @@ async def create_rule(request: CreateRuleRequest):
     """
     return NginxService.create_rule(request.server_name, request.proxy_pass)
 
-@router.post("/api/ssl")
+@router.post("/api/ssl", tags=["SSL"])
 async def install_ssl(request: InstallSSLRequest):
     """
     Instala um certificado SSL para um domínio.
@@ -73,7 +73,7 @@ async def install_ssl(request: InstallSSLRequest):
     """
     return NginxService.install_ssl(request.domain, request.email)
 
-@router.put("/api/rules/{server_name}")
+@router.put("/api/rules/{server_name}", tags=["Rules"])
 async def update_rule(server_name: str, request: EditRuleRequest):
     """
     Atualiza a configuração de proxy pass de uma regra existente.
@@ -90,7 +90,7 @@ async def update_rule(server_name: str, request: EditRuleRequest):
     """
     return NginxService.update_rule(server_name, request.proxy_pass)
 
-@router.put("/api/rules/{server_name}/full")
+@router.put("/api/rules/{server_name}/full", tags=["Rules"])
 async def update_full_rule(server_name: str, request: UpdateFullRuleRequest):
     """
     Atualiza completamente a configuração de uma regra existente.
@@ -108,7 +108,7 @@ async def update_full_rule(server_name: str, request: UpdateFullRuleRequest):
     """
     return NginxService.update_full_rule(server_name, request.config)
 
-@router.delete("/api/rules/{server_name}")
+@router.delete("/api/rules/{server_name}", tags=["Rules"])
 async def delete_rule(server_name: str):
     """
     Exclui uma regra de configuração do Nginx para um servidor específico.

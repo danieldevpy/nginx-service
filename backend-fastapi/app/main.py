@@ -4,6 +4,6 @@ from controllers.nginx_controller import router as nginx_router
 app = FastAPI()
 app.include_router(nginx_router)
 
-@app.get("/")
+@app.get("/", tags=["Home"])
 async def root():
     return {"message": "Nginx Manager API"}
