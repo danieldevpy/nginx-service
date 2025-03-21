@@ -12,9 +12,15 @@ def create_nginx_config(server_name, proxy_pass):
         listen 80;
         server_name {server_name};
 
+        access_log /var/log/nginx/({server_name})_access.log;
+        error_log /var/log/nginx/({server_name})_error.log;
+
         location / {{
-            proxy_pass http://{proxy_pass};
+            if ($uri != "/IDS/CAP.XML") {{
+                proxy_pass http://{proxy_pass};
+            }}
         }}
+
     }}
     """
     config_path = f'/etc/nginx/sites-available/{server_name}.conf'
@@ -24,6 +30,20 @@ def create_nginx_config(server_name, proxy_pass):
     enabled_path = f'/etc/nginx/sites-enabled/{server_name}.conf'
     if not os.path.exists(enabled_path):
         os.symlink(config_path, enabled_path)
+
+
+def remove_logs(server_name):
+    try:
+        path = '/etc/nginx/logs/'
+        for raiz, _, files_in_dir in os.walk(path):
+            for file in files_in_dir:
+                if f'({server_name})' in file:
+                    os.remove(raiz+file)
+    except FileNotFoundError:
+        return f"Diretório não encontrado: {path}"
+    except Exception as e:
+        return f"Erro ao listar arquivos: {e}"
+    
 
 def restart_nginx_container():
     client = docker.from_env()

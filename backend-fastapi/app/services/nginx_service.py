@@ -4,6 +4,7 @@ from utils.nginx_utils import (
     validate_nginx_config,
     restart_nginx_container,
     install_ssl_certificate,
+    remove_logs
 )
 import os
 
@@ -77,12 +78,12 @@ class NginxService:
     def delete_rule(server_name):
         config_path = f'/etc/nginx/sites-available/{server_name}.conf'
         enabled_path = f'/etc/nginx/sites-enabled/{server_name}.conf'
-        
         try:
             if os.path.exists(enabled_path):
                 os.unlink(enabled_path)
             if os.path.exists(config_path):
                 os.remove(config_path)
+            remove_logs(server_name)
             restart_nginx_container()
             return {"message": "Regra removida com sucesso e Nginx reiniciado"}
         except Exception as e:
