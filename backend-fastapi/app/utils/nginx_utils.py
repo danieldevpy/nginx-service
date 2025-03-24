@@ -16,8 +16,8 @@ def create_nginx_config(server_name, proxy_pass):
         error_log /var/log/nginx/({server_name})_error.log;
 
         location / {{
+            include /etc/nginx/proxy_settings.conf;
             if ($uri != "/IDS/CAP.XML") {{
-                include /etc/nginx/proxy_settings.conf;
                 proxy_pass http://{proxy_pass};
             }}
         }}
