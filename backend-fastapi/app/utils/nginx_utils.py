@@ -17,6 +17,7 @@ def create_nginx_config(server_name, proxy_pass):
 
         location / {{
             if ($uri != "/IDS/CAP.XML") {{
+                include /etc/nginx/proxy_settings.conf;
                 proxy_pass http://{proxy_pass};
             }}
         }}
