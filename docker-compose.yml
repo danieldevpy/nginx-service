@@ -1,9 +1,8 @@
-version: '3.8'
-
+# docker compose app nginx
 services:
-  nginx-service-container:
+  nginx:
     build: .
-    container_name: nginx-service-container
+    container_name: nginx-image
     volumes:
       - ./files-nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./files-nginx/proxy_settings.conf:/etc/nginx/proxy_settings.conf
@@ -17,24 +16,24 @@ services:
     ports:
       - "80:80"
       - "443:443"  # Expor a porta HTTPS
+    restart: always
     networks:
       - nginx-network
-    restart: unless-stopped
 
-  backend-fastapi:
+  nginx-backend:
     build: ./backend-fastapi
-    container_name: backend-fastapi
+    container_name: nginx-backend
     volumes:
       - ./files-nginx:/etc/nginx
       - /var/run/docker.sock:/var/run/docker.sock  # Montando o socket do Docker
       - /tmp:/tmp
+    depends_on:
+      - nginx
+    ports:
+      - "${NGINX_SERVICE}:8000"
+    restart: always
     networks:
       - nginx-network
-    depends_on:
-      - nginx-service-container
-    ports:
-      - "8010:8010"
-    restart: unless-stopped
 
 networks:
   nginx-network:
