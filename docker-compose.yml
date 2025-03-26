@@ -30,7 +30,7 @@ services:
     depends_on:
       - nginx
     ports:
-      - "${NGINX_SERVICE}:8000"
+      - "${NGINXSERVICE_PORT}:8000"
     restart: always
     networks:
       - nginx-network
