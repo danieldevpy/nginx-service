@@ -15,6 +15,9 @@ class Location(BaseModel):
         - REWRITE: rewrite_rule
     """
 
+    active: Optional[bool] = True
+    """Se False a location não deverá ser escrita!"""
+
     path: str
     """Caminho da location (ex: /api, /static)."""
 
