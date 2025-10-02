@@ -11,7 +11,7 @@ class Server(BaseModel):
 
     server_name: str = Field(
         ...,
-        description="Nome do servidor (ex: domínio ou identificador interno)."
+        description="Nome do servidor (ex: domínio ou identificador interno).",
     )
 
     listen: Optional[int] = Field(
@@ -20,8 +20,8 @@ class Server(BaseModel):
     )
 
     extra_settings: Optional[Settings] = Field(
-        default_factory=list,
-        description="Inserir configurações extras. Como 'client_max_body_size'"
+        None,
+        description="Inserir configurações extras. Como 'client_max_body_size'",
     )
 
     ssl: Optional[bool] = Field(
@@ -33,3 +33,15 @@ class Server(BaseModel):
         default_factory=list,
         description="Lista de locations configuradas neste servidor."
     )
+
+    model_config = {
+        "json_schema_extra": {
+            "example": {
+                "server_name": "meu-dominio.com",
+                "listen": 80,
+                "locations": [
+                    {"path": "/", "type": "proxy", "proxy_pass": "https://example.com/"}
+                ]
+            }
+        }
+    }

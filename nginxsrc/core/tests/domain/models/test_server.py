@@ -7,5 +7,5 @@ def test_default_server():
     assert default_server.server_name == "cisbaf.org.br"
     assert default_server.listen == 80
     assert default_server.ssl == False
-    assert len(default_server.extra_settings) == 0
+    assert default_server.extra_settings == None
     assert len(default_server.locations) == 0
