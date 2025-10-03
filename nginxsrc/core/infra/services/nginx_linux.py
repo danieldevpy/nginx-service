@@ -34,6 +34,18 @@ class NginxRepositoryLinux(NginxRepository):
             check=True
         )
 
+    def start_service(self) -> None:
+        """Inicia o serviço Nginx. Necessita de permissão root."""
+        self._run_sudo(["systemctl", "start", "nginx"])
+
+    def stop_service(self) -> None:
+        """Para o serviço Nginx. Necessita de permissão root."""
+        self._run_sudo(["systemctl", "stop", "nginx"])
+
+    def restart_service(self) -> None:
+        """Reinicia o serviço Nginx. Necessita de permissão root."""
+        self._run_sudo(["systemctl", "restart", "nginx"])
+
     # ---------------------------
     # Operações de arquivo real
     # ---------------------------
@@ -109,6 +121,18 @@ class NginxRepositoryLinux(NginxRepository):
     # Reinício do serviço
     # ---------------------------
 
-    def restart_service(self) -> None:
-        """Reinicia o serviço Nginx. Necessita de permissão root."""
-        self._run_sudo(["systemctl", "restart", "nginx"])
+    def get_status(self) -> str:
+        """
+        Retorna o status do serviço Nginx, especificamente a linha 'Active:'.
+        """
+        result = subprocess.run(
+            ["systemctl", "status", "nginx"],
+            capture_output=True,
+            text=True
+        )
+
+        # Procura pela linha que começa com '   Active:'
+        for line in result.stdout.splitlines():
+            if "Active:" in line:
+                return line.strip()
+        return "Status not found"

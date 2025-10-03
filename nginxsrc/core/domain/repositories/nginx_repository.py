@@ -6,6 +6,24 @@ class NginxRepository(Protocol):
     Interface para manipulação de arquivos de configuração do Nginx e do Serviço.
     """
 
+    def start_service(self) -> None:
+        """
+        Inicia o serviço Nginx.
+        """
+        ...
+
+    def stop_service(self) -> None:
+        """
+        Para o serviço Nginx.
+        """
+        ...
+
+    def restart_service(self) -> None:
+        """
+        Reinicia o serviço do Nginx para aplicar alterações nas configurações.
+        """
+        ...
+
     def server_exists(self, server_name: str) -> bool:
         """
         Verifica se um servidor com o nome fornecido já existe.
@@ -91,8 +109,8 @@ class NginxRepository(Protocol):
         """
         ...
 
-    def restart_service(self) -> None:
+    def get_status(self) -> str:
         """
-        Reinicia o serviço do Nginx para aplicar alterações nas configurações.
+        Retorna o status do serviço Nginx, especificamente a linha 'Active:'.
         """
         ...

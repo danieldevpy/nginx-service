@@ -6,7 +6,7 @@ from ..models.server import Server
 
 
 @dataclass
-class NginxService:
+class ServerService:
     """
     Serviço responsável por gerenciar servidores Nginx.
 
@@ -144,8 +144,3 @@ class NginxService:
             raise ValueError(f"Server '{server_name}' já está desabilitado!")
         self.repo_nginx.disable_server(server_name)
 
-    def reload(self) -> None:
-        """
-        Reinicia o serviço do Nginx para aplicar as alterações em produção.
-        """
-        self.repo_nginx.restart_service()
