@@ -2,6 +2,7 @@ from pydantic import BaseModel, Field
 from typing import List, Optional
 from .location import Location
 from .setting import Settings
+from .ssl import SSL
 
 
 class Server(BaseModel):
@@ -24,8 +25,8 @@ class Server(BaseModel):
         description="Inserir configurações extras. Como 'client_max_body_size'",
     )
 
-    ssl: Optional[bool] = Field(
-        False,
+    ssl: Optional[SSL] = Field(
+        default_factory=SSL,
         description="Indica se o servidor utiliza SSL/TLS. Padrão é False."
     )
 

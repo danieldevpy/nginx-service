@@ -3,5 +3,9 @@ from .domain.models.location import Location
 from .domain.models.location_type import LocationType
 from .domain.services.server_service import ServerService
 from .domain.services.nginx_settings_service import NginxSettingsService
-from .infra.services.nginx_linux import NginxRepositoryLinux
+from .domain.services.ssl_service import SSLService
+from .infra.repositories.nginx_linux import NginxRepositoryLinux
+from .infra.repositories.nginx_docker import NginxRepositoryDocker
 from .application.renders.jinja_renderer import JinjaServerRenderer
+from .domain.repositories.nginx_repository import NginxRepository
+from .infra.repositories.certbot_ssl import CertbotSSLRepository

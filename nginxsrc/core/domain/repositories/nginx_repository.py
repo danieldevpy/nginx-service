@@ -1,4 +1,4 @@
-from typing import Protocol
+from typing import Protocol, List
 
 
 class NginxRepository(Protocol):
@@ -21,6 +21,25 @@ class NginxRepository(Protocol):
     def restart_service(self) -> None:
         """
         Reinicia o serviço do Nginx para aplicar alterações nas configurações.
+        """
+        ...
+
+    def get_servers_name(self) -> List[str]:
+        """
+        Retorna uma lista com os nomes dos servidores configurados no Nginx.
+
+        Cada nome da lista corresponde a um 'server_name' definido
+        nos blocos de servidor (server blocks) dos arquivos de configuração
+        do Nginx.
+
+        Retornos:
+            List[str]: Uma lista de strings, cada uma representando o nome
+            de um servidor configurado no Nginx. Se nenhum servidor estiver
+            configurado, a lista será vazia.
+
+        Exemplo de uso:
+            >>> nginx_repo.get_servers_name()
+            ['example.com', 'api.example.com', 'localhost']
         """
         ...
 

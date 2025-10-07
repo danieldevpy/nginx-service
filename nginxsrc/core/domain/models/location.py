@@ -31,6 +31,7 @@ class Location(BaseModel):
     # Redirect
     redirect_to: Optional[PreservedHttpUrl] = None
     """URL de destino do redirecionamento (obrigatório se type=redirect)."""
+    
     status_code: Optional[int] = None
     """Código HTTP do redirecionamento (obrigatório se type=redirect)."""
 

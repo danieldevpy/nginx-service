@@ -1,0 +1,12 @@
+
+services:
+  nginx-service:
+    build: nginxsrc/
+    container_name: nginx-service
+    volumes:
+      - ./nginxsrc/backend:/app/nginxsrc/backend
+      - ./nginxsrc/core:/app/nginxsrc/core
+    ports:
+      - "80:80"
+      - "443:443"  # Expor a porta HTTPS
+      - "8000:8000"

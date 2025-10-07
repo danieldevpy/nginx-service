@@ -2,7 +2,7 @@ import subprocess
 from pathlib import Path
 from typing import Optional
 from ...domain.repositories.nginx_repository import NginxRepository
-
+import re
 
 class NginxRepositoryLinux(NginxRepository):
     """
@@ -49,7 +49,39 @@ class NginxRepositoryLinux(NginxRepository):
     # ---------------------------
     # Operações de arquivo real
     # ---------------------------
+    def get_servers_name(self):
+        """
+        Retorna uma lista com todos os 'server_name' configurados nos
+        arquivos do Nginx dentro de sites-available.
 
+        Lê cada arquivo de configuração e extrai os nomes declarados
+        na diretiva 'server_name'.
+
+        Retornos:
+            List[str]: Lista de nomes de servidores configurados.
+        """
+        server_names = []
+
+        if not self.sites_available.exists():
+            return server_names
+
+        # Regex para pegar o conteúdo após 'server_name' até ';'
+        pattern = re.compile(r"server_name\s+([^;]+);")
+
+        for conf_file in self.sites_available.iterdir():
+            if conf_file.is_file():
+                try:
+                    content = conf_file.read_text()
+                    matches = pattern.findall(content)
+                    for match in matches:
+                        # Pode haver múltiplos nomes separados por espaço
+                        names = [name.strip() for name in match.split()]
+                        server_names.extend(names)
+                except Exception:
+                    continue  # Ignora arquivos que não podem ser lidos
+
+        return server_names
+    
     def server_exists(self, server_name: str) -> bool:
         return (self.sites_available / server_name).exists()
 
