@@ -1,3 +1,25 @@
+# === STAGE 1: Build do frontend com Node ===
+FROM node:20-alpine AS frontend-build
+
+WORKDIR /app
+
+# Copia package.json e package-lock.json
+COPY nginxui/package*.json ./
+
+# Instala dependências do frontend
+RUN npm install
+
+# Copia o restante do frontend
+COPY nginxui/src src/
+COPY nginxui/public ./
+COPY nginxui/eslint.config.js nginxui/vite.config.ts \
+    nginxui/tsconfig.node.json nginxui/tsconfig.json \
+    nginxui/tsconfig.app.json nginxui/index.html \
+    nginxui/.env ./
+
+# Build do Vite (gera a pasta dist)
+RUN npm run build
+
 # Usa imagem oficial slim do Python
 FROM python:3.11-slim
 
@@ -25,7 +47,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copia o restante da aplicação
 COPY backend nginxsrc/backend/
 COPY core nginxsrc/core/
-COPY nginxui/dist nginxsrc/ui/
+COPY --from=frontend-build /app/dist nginxsrc/ui/
 
 # Expondo as portas necessárias
 EXPOSE 80 443 8000
