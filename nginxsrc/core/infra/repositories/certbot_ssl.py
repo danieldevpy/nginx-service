@@ -55,6 +55,9 @@ class CertbotSSLRepository(SSLRepository):
             "--agree-tos",
             "--email", email
         ]
+        
+        self._run_command(command)
+
         # Após a instalação, obtemos as informações do certificado
         return self.info(server_name)
 
