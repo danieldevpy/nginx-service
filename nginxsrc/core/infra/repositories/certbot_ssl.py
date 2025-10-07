@@ -48,16 +48,13 @@ class CertbotSSLRepository(SSLRepository):
             SSL: Objeto contendo o estado e data de expiração do certificado.
         """
         command = [
-            "certbot", "certonly",
+            "certbot",
             "--nginx",
             "-d", server_name,
             "--non-interactive",
             "--agree-tos",
             "--email", email
         ]
-        result = self._run_command(command)
-        print(result.stdout)
-
         # Após a instalação, obtemos as informações do certificado
         return self.info(server_name)
 
