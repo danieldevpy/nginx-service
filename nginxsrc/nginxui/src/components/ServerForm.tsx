@@ -1,7 +1,6 @@
 import { useServerForm } from "../contexts/ServerFormContext";
 import ServerNameField from './fields/ServerName'
 import ListenField from './fields/ListenField'
-import SSLField from './fields/SLLField'
 import LocationsField from './fields/LocationsField'
 import { Button, Flex, Grid, GridItem } from "@chakra-ui/react";
 import AccordionLocation from "./fields/AccordionLocation";
