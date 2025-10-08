@@ -5,8 +5,6 @@ import { CONTENT_WIDTHS } from './utils/settingsGeral';
 import { Tabs, TabList, TabPanels, Tab, TabPanel, Flex } from "@chakra-ui/react";
 
 function App() {
-
-
   return (
     <Flex justifyContent={"center"}>
       <Flex 

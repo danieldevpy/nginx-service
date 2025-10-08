@@ -10,6 +10,7 @@ from . import (
     create_engine_instance,
     create_tables
     )
+import os
 
 class InstancesRepository:
     _instance = None
@@ -22,7 +23,6 @@ class InstancesRepository:
         return cls._instance
 
     def _init_repositories(self):
-        # Inicialize aqui seus repositórios
         self.repo_nginx = NginxRepositoryDocker()
         self.settings_service = NginxSettingsService(
             repo_nginx=self.repo_nginx
@@ -31,7 +31,11 @@ class InstancesRepository:
             repo_nginx=self.repo_nginx,
             repo_render=JinjaServerRenderer()
         )
-        engine = create_engine_instance("sqlite:///database.db")
+        DATABASE_URL = os.getenv("DATABASE_URL", None)
+        if not DATABASE_URL:
+            raise Exception("A DATABASE URL não foi declarada!")
+        
+        engine = create_engine_instance(DATABASE_URL)
         create_tables(engine)
         self.server_repository = ServerSqlModel(engine)
         self.ssl_service = SSLService(self.repo_nginx, CertbotSSLRepository())

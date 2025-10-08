@@ -2,8 +2,8 @@ import type { Server } from "../models/Server";
 import SanitizeServer from "../utils/sanatizeServer";
 import { ToCamelCase, ToSnakeCase } from "../utils/toCases";
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-const URL_API = `${BACKEND_URL}/server/`
+const CUSTOM_URL = import.meta.env.VITE_API_URL;
+const API_URL = CUSTOM_URL? `${CUSTOM_URL}/server/` : '/server/';
 
 type ServerNoID = Omit<Server, "id">;
 
@@ -12,11 +12,10 @@ export interface ResponseError {
   error: any;
 }
 
-
 export function GetAllServers(): Promise<Server[]> {
 
     return new Promise(async(resolve, reject) => {
-        const response = await fetch(URL_API);
+        const response = await fetch(API_URL);
         const responseJson = await response.json();
         if (response.ok) {
             const servers = responseJson.map(
@@ -38,7 +37,7 @@ export function CreateServer(server: Server): Promise<Server> {
     const serverSnakeCase = ToSnakeCase(serverNoID);
 
     return new Promise(async(resolve, reject) => {
-        const response = await fetch(URL_API, {
+        const response = await fetch(API_URL, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -58,7 +57,7 @@ export function CreateServer(server: Server): Promise<Server> {
 }
 
 export function EditServer(server: Server): Promise<Server> {
-    const updateUrl = `${URL_API}${server.id}`;
+    const updateUrl = `${API_URL}${server.id}`;
     server = SanitizeServer(server);
     const { id, ...serverNoID }: { id?: number } & ServerNoID = server;
     const serverSnakeCase = ToSnakeCase(serverNoID);
@@ -84,7 +83,7 @@ export function EditServer(server: Server): Promise<Server> {
 }
 
 export function DeleteServer(id: number): Promise<void> {
-    const urlDelete = `${URL_API}${id}`;
+    const urlDelete = `${API_URL}${id}`;
     return new Promise(async(resolve, reject) => {
         const response = await fetch(urlDelete, {
             method: "DELETE"

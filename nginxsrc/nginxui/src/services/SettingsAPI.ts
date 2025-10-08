@@ -1,6 +1,7 @@
+const CUSTOM_URL = import.meta.env.VITE_API_URL;
+const API_URL = CUSTOM_URL? `${CUSTOM_URL}/settings/` : '/settings/';
 
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-const URL_API = `${BACKEND_URL}/settings/`
+console.log(API_URL)
 
 export interface ResponseError {
   statusCode: number;
@@ -8,7 +9,7 @@ export interface ResponseError {
 }
 
 export function SettingsReload(): Promise<void> {
-    const urlReload = `${URL_API}reload`;
+    const urlReload = `${API_URL}reload`;
     return new Promise(async(resolve, reject) => {
         const response = await fetch(urlReload);
         if (response.ok) return resolve();
@@ -17,7 +18,7 @@ export function SettingsReload(): Promise<void> {
 }
 
 export function SettingsStatus(): Promise<string> {
-  const urlStatus = `${URL_API}status`;
+  const urlStatus = `${API_URL}status`;
   return new Promise(async(resolve, reject) => {
     const response = await fetch(urlStatus);
     const responseJson = await response.json();

@@ -1,5 +1,4 @@
-from fastapi import APIRouter, HTTPException
-from fastapi.responses import JSONResponse
+from fastapi import APIRouter
 from typing import List
 from ..model.server import Server, ServerDTO
 from ..controller.server import ServerController
@@ -44,14 +43,6 @@ def edit_server_endpoint(
 ):
     """Edita um servidor pelo ID"""
     return controller.update(id, server)
-    # server_dto = crud.get_server_by_id(id)
-    # if not server_dto:
-    #     raise HTTPException(status_code=404, detail="Server não encontrado!")
-    # repositories.server.edit_server(server_dto.server_name, server)
-    # updated = crud.update_server(server_dto.id, server)
-    # if updated:
-    #     return updated
-    # raise HTTPException(status_code=500, detail="Erro ao atualizar o servidor")
 
 @router.delete(
     path="/{id}",
