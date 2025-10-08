@@ -5,6 +5,8 @@ import LocationsField from './fields/LocationsField'
 import { Button, Flex, Grid, GridItem } from "@chakra-ui/react";
 import AccordionLocation from "./fields/AccordionLocation";
 import type { Server } from "../models/Server";
+import ExtraSettingsField from "./fields/ExtraSettingsField";
+import AccordionSettings from "./fields/AccordionSettings";
 
 interface ServerFormProps {
   label: string;
@@ -26,9 +28,8 @@ export default function ServerForm({label, onSubmit}: ServerFormProps) {
                 <GridItem colSpan={[12, 10]}><ServerNameField/></GridItem>
                 <GridItem colSpan={[6, 2]}><ListenField/></GridItem>
                 <GridItem colSpan={12}>
-                    <AccordionLocation>
-                    <LocationsField/>
-                    </AccordionLocation>
+                    <AccordionSettings><ExtraSettingsField/></AccordionSettings>
+                    <AccordionLocation><LocationsField/></AccordionLocation>
                 </GridItem>
                 </Grid>
             <Button type="submit">{label}</Button>

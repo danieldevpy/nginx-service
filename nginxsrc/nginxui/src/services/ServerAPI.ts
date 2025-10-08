@@ -21,6 +21,7 @@ export function GetAllServers(): Promise<Server[]> {
             const servers = responseJson.map(
                 (server: Server) => ToCamelCase(server)
             );
+            console.log(servers);
             return resolve(servers);
         }
         reject({

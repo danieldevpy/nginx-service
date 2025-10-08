@@ -1,7 +1,6 @@
 from pydantic import BaseModel, Field
 from typing import List, Optional
 from .location import Location
-from .setting import Settings
 from .ssl import SSL
 
 
@@ -20,8 +19,8 @@ class Server(BaseModel):
         description="Porta na qual o servidor vai escutar. Padrão é 80."
     )
 
-    extra_settings: Optional[Settings] = Field(
-        None,
+    extra_settings: Optional[List[str]] = Field(
+        default_factory=list,
         description="Inserir configurações extras. Como 'client_max_body_size'",
     )
 
