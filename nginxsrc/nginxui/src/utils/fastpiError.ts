@@ -11,6 +11,7 @@ interface FastAPI422Error {
 }
 
 function formatFastAPI422Error(error: FastAPI422Error): string {
+  console.log(error);
   if (!error?.detail || !Array.isArray(error.detail)) {
     return "Erro desconhecido";
   }

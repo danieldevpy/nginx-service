@@ -1,6 +1,8 @@
 import React from "react";
 import type { Server } from "../models/Server";
-import { GetAllServers, CreateServer, DeleteServer, EditServer } from "../services/ServerAPI";
+import { GetAllServers, CreateServer, DeleteServer, EditServer, type ResponseError } from "../services/ServerAPI";
+import SSLApi from "../services/SSLApi";
+import formatFastAPI422Error from "../utils/fastpiError";
 
 interface ServerRepositoryType {
     servers: Server[];
@@ -8,6 +10,7 @@ interface ServerRepositoryType {
     editServer: (server: Server) => Promise<Server>;
     deleteServer: (id: number) => Promise<void>;
     getServerById: (id: number) => Server | undefined;
+    installSSL: (id: number) => Promise<Server>;
 };
 
 interface ServerRepositoryProps {
@@ -64,6 +67,22 @@ function ServerRepositoryProvider({children}: ServerRepositoryProps) {
         }
     };
 
+    const installSSL = async(id: number): Promise<Server> => {
+        const api = new SSLApi();
+        return new Promise(async(resolve, reject)=>{
+            try {
+                const server = await api.install(id, "danielfernandes202@gmail.com");
+                setServers(prev =>
+                    prev.map(s => (s.id === server.id ? server : s))
+                );
+                resolve(server);
+            }
+            catch (responseError) {
+                return reject(responseError)
+            }
+        })
+    }
+
     React.useEffect(()=>{
         getAllServers();
     }, [])
@@ -74,7 +93,8 @@ function ServerRepositoryProvider({children}: ServerRepositoryProps) {
             createServer,
             deleteServer,
             getServerById,
-            editServer
+            editServer,
+            installSSL
         }}>
             {children}
         </ServerRepositoryContext.Provider>

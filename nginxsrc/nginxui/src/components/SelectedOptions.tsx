@@ -6,6 +6,7 @@ import { useServerOptions } from "../contexts/ServerOptionsContext";
 import { useServerRepository } from "../contexts/ServerRepositoryContext";
 import { useGlobalComponents } from "../contexts/GlobalComponents";
 import { useModal } from "../contexts/ModalContext";
+import SslOptionsButton from "./SSLActions";
 
 
 export default function SelectedOptions() {
@@ -45,11 +46,12 @@ export default function SelectedOptions() {
              <FloatingBar> 
                     {count === 1 && (
                         <>
-                         <ActionButton
+                        <ActionButton
                             title="EDITAR"
                             icon={<EditIcon/>}
                             colorScheme="teal"
                             onClick={()=> showModal("edit-server")}/>
+                        <SslOptionsButton/>
                         </>
                     )}
                     <ActionButton
@@ -62,3 +64,5 @@ export default function SelectedOptions() {
         </Box>
     );
 }
+
+
