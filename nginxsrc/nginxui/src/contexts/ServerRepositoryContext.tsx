@@ -1,8 +1,7 @@
 import React from "react";
 import type { Server } from "../models/Server";
-import { GetAllServers, CreateServer, DeleteServer, EditServer, type ResponseError } from "../services/ServerAPI";
+import { GetAllServers, CreateServer, DeleteServer, EditServer } from "../services/ServerAPI";
 import SSLApi from "../services/SSLApi";
-import formatFastAPI422Error from "../utils/fastpiError";
 
 interface ServerRepositoryType {
     servers: Server[];
